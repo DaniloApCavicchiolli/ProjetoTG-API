@@ -11,8 +11,8 @@ class UserController {
                 return res.status(400).json({ error: "E-mail já cadastrado!" });
             }
 
-            const user = await User.create(data);
-            return res.status(200).json(user);
+            const {id, name, email, telefone, cidade} = await User.create(data);
+            return res.status(200).json({id, name, email, telefone, cidade});
 
         } catch (err) {
             console.log(err);
