@@ -11,4 +11,6 @@ routes.post('/auth', AuthController.store);
 
 routes.use(authMiddlewares); //Qualquer rota que vier abaixo, será uma rota autenticada.
 
+routes.put('/users', UserController.update);
+
 export default routes;
