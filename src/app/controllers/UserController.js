@@ -1,7 +1,23 @@
-import User from "../models/User";
 import * as Yup from "yup";
+import User from "../models/User";
+import File from "../models/File";
 
 class UserController {
+    async index(req, res) {
+        try {
+            const users = await User.findAll({
+                include: [{
+                    model: File,
+                    as: 'avatar'
+                }]
+            });
+
+            return res.json(users);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async store(req, res) {
         try {
             const schema = Yup.object().shape({
@@ -68,10 +84,15 @@ class UserController {
             if (oldPassword && !(await user.checkPassword(oldPassword))) {
                 return res.status(401).json({ message: "Senha incorreta!" })
             }
+            const data = req.body;
+            const response = await user.update(data, {
+                include: [{
+                    model: File,
+                    as: 'avatar'
+                }]
+            });
 
-            const { id, name, telefone, cidade } = await user.update(req.body);
-
-            return res.status(200).json({ id, name, email, telefone, cidade });
+            return res.status(200).json(response);
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: 'Não foi possível alterar os dados!' });
