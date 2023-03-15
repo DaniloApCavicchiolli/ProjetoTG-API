@@ -3,12 +3,14 @@ import User from "../models/User";
 import File from "../models/File";
 
 class UserController {
+    /* MOSTRAR USUÁRIOS */
     async index(req, res) {
         try {
             const users = await User.findAll({
                 include: [{
                     model: File,
-                    as: 'avatar'
+                    as: 'avatar',
+                    attributes: ['name', 'path', 'url']
                 }]
             });
 
@@ -18,6 +20,7 @@ class UserController {
         }
     }
 
+    /* REGISTRAR USUÁRIO */
     async store(req, res) {
         try {
             const schema = Yup.object().shape({
@@ -49,6 +52,7 @@ class UserController {
         }
     }
 
+    /* ATUALIZAR USUÁRIO */
     async update(req, res) {
         try {
             const schema = Yup.object().shape({
@@ -88,7 +92,8 @@ class UserController {
             const response = await user.update(data, {
                 include: [{
                     model: File,
-                    as: 'avatar'
+                    as: 'avatar',
+                    attributes: ['name', 'path', 'url']
                 }]
             });
 
@@ -96,6 +101,19 @@ class UserController {
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: 'Não foi possível alterar os dados!' });
+        }
+    }
+
+    /* Deletar Usuário */
+    async destroy(req, res) {
+        try {
+            const { id } = req.params;
+            await User.destroy({
+                where: { id },
+            });
+            return res.json({ message: "Deletado com sucesso!" });
+        } catch (err) {
+            return res.json({ error: "Não foi possivel deletar o usuario" });
         }
     }
 }

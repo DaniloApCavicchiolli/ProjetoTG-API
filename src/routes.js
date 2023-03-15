@@ -12,14 +12,18 @@ const routes = new Router();
 const upload = multer(multerConfig);
 
 routes.post('/users', UserController.store);
+// Rota login
+routes.post('/auth', AuthController.store); 
 
-routes.post('/auth', AuthController.store); //Rota login
+//Qualquer rota que vier abaixo, será uma rota autenticada.
+routes.use(authMiddlewares); 
 
-routes.use(authMiddlewares); //Qualquer rota que vier abaixo, será uma rota autenticada.
-
+//rotas de usuários
 routes.put('/users', UserController.update);
 routes.get('/users', UserController.index);
+routes.delete('/users/:id', UserController.destroy);
 
+//rotas de files
 routes.post("/files", upload.single("file"), FileController.store);
 
 export default routes;
