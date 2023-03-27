@@ -26,13 +26,11 @@ class FornecedorController {
             const schema = Yup.object().shape({
                 name: Yup.string().required(),
                 email: Yup.string().email().required(),
-                password: Yup.string().min(8).required(),
-                telefone: Yup.string().required(),
-                cidade: Yup.string().required()
+                password: Yup.string().min(8).required()
             });
 
             if (!(await schema.isValid(req.body))) {
-                return res.status(400).jsont({ message: "Erro na validação!" })
+                return res.status(400).json({ message: "Erro na validação!" })
             }
 
             const data = req.body;
