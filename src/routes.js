@@ -8,6 +8,7 @@ import FornecedorController from "./app/controllers/FornecedorController";
 
 import authMiddlewares from "./app/middlewares/auth";
 import multerConfig from "./config/multer";
+import AuthControllerFornecedor from "./app/controllers/AuthControllerFornecedor";
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -18,6 +19,7 @@ routes.post('/fornecedor', FornecedorController.store);
 
 // Rota login
 routes.post('/auth', AuthController.store); 
+routes.post('/authFornecedor', AuthControllerFornecedor.store); 
 
 //Qualquer rota que vier abaixo, será uma rota autenticada.
 routes.use(authMiddlewares);
