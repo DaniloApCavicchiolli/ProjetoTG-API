@@ -24,20 +24,20 @@ module.exports = {
       },
       telefone: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       cidade: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       acesso: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 1
       },
       nivel: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 1
       },
       created_at: {
