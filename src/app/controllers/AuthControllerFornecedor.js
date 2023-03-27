@@ -25,10 +25,10 @@ class AuthControllerFornecedor {
             return res.status(401).json({ error: 'Senha inválida!' })
         }
 
-        const { id, name } = fornecedor;
+        const { id, name, acesso } = fornecedor;
 
         return res.json({
-            fornecedor: { id, name, email },
+            fornecedor: { id, name, email, acesso },
             token: jwt.sign({ id }, authConf.secret, {
                 expiresIn: authConf.expiresIn
             }),
