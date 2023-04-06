@@ -11,12 +11,16 @@ class UserController {
                     model: File,
                     as: 'avatar',
                     attributes: ['name', 'path', 'url']
-                }]
+                }],
+                order: [
+                    ['createdAt', 'DESC'],
+                ],
             });
 
             return res.json(users);
         } catch (err) {
             console.log(err);
+            return res.status(400).json({ error: 'Não foi possível mostrar os usuários' })
         }
     }
 

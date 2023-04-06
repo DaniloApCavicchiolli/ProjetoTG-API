@@ -10,6 +10,7 @@ class User extends Model {
             password_hash: Sequelize.STRING,
             telefone: Sequelize.STRING,
             cidade: Sequelize.STRING,
+            endereco: Sequelize.STRING,
             acesso: Sequelize.INTEGER,
             nivel: Sequelize.INTEGER,
         }, {

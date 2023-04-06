@@ -11,6 +11,7 @@ class Fornecedores extends Model {
             telefone: Sequelize.STRING,
             cidade: Sequelize.STRING,
             acesso: Sequelize.INTEGER,
+            nivel: Sequelize.INTEGER,
         }, {
             sequelize
         });

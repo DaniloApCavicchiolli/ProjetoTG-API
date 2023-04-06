@@ -6,17 +6,28 @@ class FornecedorController {
     /* MOSTRAR FORNECEDORES */
     async index(req, res) {
         try {
-            const users = await Fornecedor.findAll({
+            const { page = 0 } = req.query;
+
+            const registros = await Fornecedor.count();
+            const pages = Math.ceil(registros / 5);
+
+            const fornecedores = await Fornecedor.findAll({
                 include: [{
                     model: File,
                     as: 'avatar',
                     attributes: ['name', 'path', 'url']
-                }]
+                }],
+                limit: 5,
+                offset: 5 * page,
+                order: [
+                    ['createdAt', 'DESC'],
+                ],
             });
 
-            return res.json(users);
+            return res.json({ totalPages: pages, registros: registros, content: fornecedores });
         } catch (err) {
             console.log(err);
+            return res.status(400).json({ error: 'Não foi possível mostrar os fornecedores' });
         }
     }
 
