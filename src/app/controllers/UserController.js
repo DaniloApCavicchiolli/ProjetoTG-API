@@ -32,7 +32,6 @@ class UserController {
                 email: Yup.string().email().required(),
                 password: Yup.string().min(8).required(),
                 telefone: Yup.string().required(),
-                cidade: Yup.string().required()
             });
 
             if (!(await schema.isValid(req.body))) {
@@ -47,8 +46,8 @@ class UserController {
                 return res.status(400).json({ error: "E-mail já cadastrado!" });
             }
 
-            const { id, name, email, telefone, cidade } = await User.create(data);
-            return res.status(200).json({ id, name, email, telefone, cidade });
+            const { id, name, email, telefone } = await User.create(data);
+            return res.status(200).json({ id, name, email, telefone });
 
         } catch (err) {
             console.log(err);
