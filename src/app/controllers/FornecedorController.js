@@ -45,6 +45,7 @@ class FornecedorController {
             }
 
             const data = req.body;
+            
             const userExists = await Fornecedor.findOne({
                 where: { email: data.email }
             });
@@ -52,8 +53,8 @@ class FornecedorController {
                 return res.status(400).json({ error: "E-mail já cadastrado!" });
             }
 
-            const { id, name, email, telefone, cidade } = await Fornecedor.create(data);
-            return res.status(200).json({ id, name, email, telefone, cidade });
+            const { id, name, email, telefone, cidade, endereco } = await Fornecedor.create(data);
+            return res.status(200).json({ id, name, email, telefone, cidade, endereco });
 
         } catch (err) {
             console.log(err);
@@ -69,7 +70,8 @@ class FornecedorController {
                 email: Yup.string().email(),
                 telefone: Yup.string(),
                 cidade: Yup.string(),
-                oldPassword: Yup.string().min(6),
+                endereco: Yup.string(),
+                oldPassword: Yup.string().min(8),
                 password: Yup.string().min(8).when('oldPassword', (oldPassword, field) => {
                     oldPassword ? field.required() : field
                 }),
@@ -101,7 +103,7 @@ class FornecedorController {
             const data = req.body;
             const response = await user.update(data);
 
-            return res.status(200).json({ message: 'Atualizado com sucesso!' });
+            return res.status(200).json({ message: 'Fornecedor atualizado com sucesso!' });
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: 'Não foi possível alterar os dados!' });
@@ -115,9 +117,9 @@ class FornecedorController {
             await Fornecedor.destroy({
                 where: { id },
             });
-            return res.json({ message: "Deletado com sucesso!" });
+            return res.status(200).json({ message: "Fornecedor deletado com sucesso!" });
         } catch (err) {
-            return res.json({ error: "Não foi possivel deletar o usuario" });
+            return res.status(400).json({ error: "Não foi possivel deletar o fornecedor" });
         }
     }
 }
