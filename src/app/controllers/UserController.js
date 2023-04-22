@@ -63,7 +63,8 @@ class UserController {
                 email: Yup.string().email(),
                 telefone: Yup.string(),
                 cidade: Yup.string(),
-                oldPassword: Yup.string().min(6),
+                endereco: Yup.string(),
+                oldPassword: Yup.string().min(8),
                 password: Yup.string().min(8).when('oldPassword', (oldPassword, field) => {
                     oldPassword ? field.required() : field
                 }),
@@ -76,10 +77,11 @@ class UserController {
                 return res.status(400).json({ message: "Erro na validação!" })
             }
 
+            const { id } = req.params;
             const { email, oldPassword } = req.body;
 
             //Verificação de email caso usuário queira alterá - lo.
-            const user = await User.findByPk(req.userId);
+            const user = await User.findByPk(id);
             if (email !== user.email) {
                 const userExists = await User.findOne({ where: { email } });
                 if (userExists) {
@@ -93,17 +95,17 @@ class UserController {
             }
             const data = req.body;
             const response = await user.update(data, {
-                include: [{
+                include: {
                     model: File,
                     as: 'avatar',
                     attributes: ['name', 'path', 'url']
-                }]
+                }
             });
 
             return res.status(200).json(response);
         } catch (err) {
             console.log(err);
-            return res.status(400).json({ error: 'Não foi possível alterar os dados!' });
+            return res.status(400).json({ message: 'Não foi possível alterar os dados!' });
         }
     }
 
