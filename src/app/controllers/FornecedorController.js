@@ -31,6 +31,27 @@ class FornecedorController {
         }
     }
 
+    /* MOSTRAR FORNECEDOR */
+    async findOneByPk(req, res) {
+        try {
+            const { id } = req.params;
+
+            const fornecedor = await Fornecedor.findOne({
+                where: { id },
+                include: [{
+                    model: File,
+                    as: 'avatar',
+                    attributes: ['name', 'path', 'url']
+                }],
+            });
+
+            return res.json(fornecedor);
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: 'Não foi possível mostrar o fornecedor' });
+        }
+    }
+
     /* REGISTRAR FORNECEDOR */
     async store(req, res) {
         try {
@@ -45,7 +66,7 @@ class FornecedorController {
             }
 
             const data = req.body;
-            
+
             const userExists = await Fornecedor.findOne({
                 where: { email: data.email }
             });
@@ -103,7 +124,7 @@ class FornecedorController {
             const data = req.body;
             const response = await user.update(data);
 
-            return res.status(200).json({ message: 'Fornecedor atualizado com sucesso!' });
+            return res.status(200).json(response);
         } catch (err) {
             console.log(err);
             return res.status(400).json({ error: 'Não foi possível alterar os dados!' });

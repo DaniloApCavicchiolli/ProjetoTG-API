@@ -34,6 +34,7 @@ routes.delete('/users/:id', UserController.destroy);
 
 //rotas de fornecedor
 routes.get('/fornecedor', FornecedorController.index);
+routes.get('/fornecedor/:id', FornecedorController.findOneByPk);
 routes.put('/fornecedor/:id', FornecedorController.update);
 routes.delete('/fornecedor/:id', FornecedorController.destroy);
 
