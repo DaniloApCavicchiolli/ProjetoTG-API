@@ -42,7 +42,7 @@ class CategoriaController {
             return res.json({ totalPages: pages, content: categorias });
         } catch (err) {
             console.log(err);
-            return res.json({ error: 'Não foi possível mostrar os categorias' })
+            return res.json({ message: 'Não foi possível mostrar as categorias' })
         }
     }
 
@@ -57,7 +57,7 @@ class CategoriaController {
 
             return res.json(categoria)
         } catch (err) {
-            return res.json({ error: 'Não foi possível mostrar o Categoria' })
+            return res.json({ message: 'Não foi possível mostrar o Categoria' })
         }
     }
 
@@ -81,22 +81,22 @@ class CategoriaController {
             return res.status(200).json(response)
         } catch (err) {
             console.log(err);
-            return res.status(400).json({ error: 'Não foi possível editar a Categoria' })
+            return res.status(400).json({ message: 'Não foi possível editar a Categoria' })
         }
     }
 
     /* Deletar Categoria */
     async destroy(req, res) {
         try {
-            const { id } = req.params
+            const { id } = req.params;
 
             await Categoria.destroy({
                 where: { id }
-            })
+            });
 
-            return res.json({ message: 'Deletado com sucesso!' })
+            return res.status(200).json({ message: 'Deletado com sucesso!' })
         } catch (err) {
-            return res.json({ error: 'Não foi possível deletar o Categoria!' })
+            return res.status(400).json({ message: 'Não foi possível deletar o Categoria!' })
         }
     }
 }
