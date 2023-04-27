@@ -43,6 +43,7 @@ routes.delete('/fornecedor/:id', FornecedorController.destroy);
 routes.post('/categoria', CategoriaController.store);
 routes.get('/categoria', CategoriaController.index);
 routes.get('/categoria/:id', CategoriaController.showOne);
+routes.put('/categoria/:id', CategoriaController.update);
 routes.delete('/categoria/:id', CategoriaController.destroy);
 
 export default routes;

@@ -16,10 +16,10 @@ class CategoriaController {
             }
 
             const catego = await Categoria.create(data);
-            return res.stauts(200).json(catego);
+            return res.status(200).json(catego);
         } catch (err) {
             console.log(err);
-            return res.status(400).json({ message: 'Não foi possível criar o Categoria' })
+            return res.status(400).json({ message: 'Não foi possível cadastrar o Categoria' })
         }
     }
 
@@ -58,6 +58,30 @@ class CategoriaController {
             return res.json(categoria)
         } catch (err) {
             return res.json({ error: 'Não foi possível mostrar o Categoria' })
+        }
+    }
+
+    /* Editar categoria */
+    async update(req, res) {
+        try {
+            const { id } = req.params;
+            const { nome } = req.body;
+            const data = req.body;
+
+            const categoriaExists = await Categoria.findOne({
+                where: { nome }
+            });
+            if (categoriaExists) {
+                return res.status(400).json({ message: "Categoria já cadastrada!" });
+            }
+
+            const categoria = await Categoria.findByPk(id);
+            const response = await categoria.update(data);
+
+            return res.status(200).json(response)
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: 'Não foi possível editar a Categoria' })
         }
     }
 
