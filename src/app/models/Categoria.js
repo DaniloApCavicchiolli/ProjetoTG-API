@@ -9,6 +9,14 @@ class Categorias extends Model {
             tableName: 'Categorias'
         })
     }
-} 
+
+    static associate(models) {
+        this.belongsToMany(models.Produtos, {
+            through: 'Categoria_Produtos',
+            foreignKey: 'categoria_id',
+            as: 'fk_produtos'
+        });
+    }
+}
 
 export default Categorias;

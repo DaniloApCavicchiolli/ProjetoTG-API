@@ -43,6 +43,7 @@ routes.delete('/fornecedor/:id', FornecedorController.destroy);
 //rotas de categoria
 routes.post('/categoria', CategoriaController.store);
 routes.get('/categoria', CategoriaController.index);
+routes.get('/categoria_showAll', CategoriaController.showAll);
 routes.get('/categoria/:id', CategoriaController.showOne);
 routes.put('/categoria/:id', CategoriaController.update);
 routes.delete('/categoria/:id', CategoriaController.destroy);
@@ -53,5 +54,6 @@ routes.get('/produto', ProdutoController.index);
 routes.get('/produto/:id', ProdutoController.showOne);
 routes.put('/produto/:id', ProdutoController.update);
 routes.delete('/produto/:id', ProdutoController.destroy);
+routes.delete('/produto_remove/:categoria_id', ProdutoController.remove);
 
 export default routes;

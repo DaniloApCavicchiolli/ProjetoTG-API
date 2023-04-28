@@ -46,6 +46,17 @@ class CategoriaController {
         }
     }
 
+    /* Mostrar todas as categorias */
+    async showAll(req, res) {
+        try {
+            const categorias = await Categoria.findAll();
+            return res.json(categorias);
+        } catch (err) {
+            console.log(err);
+            return res.json({ message: 'Não foi possível mostrar as categorias' })
+        }
+    }
+
     /* Mostrar uma Categoria */
     async showOne(req, res) {
         try {
