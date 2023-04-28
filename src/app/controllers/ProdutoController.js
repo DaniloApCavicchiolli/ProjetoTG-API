@@ -76,8 +76,8 @@ class ProdutoController {
         }
     }
 
-     /* Mostrar um Produto */
-     async showOne(req, res) {
+    /* Mostrar um Produto */
+    async showOne(req, res) {
         try {
             const { id } = req.params;
 
@@ -112,24 +112,19 @@ class ProdutoController {
                 }
             });
 
-            // await categoria.removeFk_produtos(produto)
-
-            await connection.query(`delete from Categoria_Produtos where produto_id = ${id}`)
+            const cetegoProduto = produto.fk_categoria
+            cetegoProduto.forEach(async (element) => {
+                await produto.removeFk_categoria(element); 
+            });
 
             const categorias = data.categorias
-
             const categoria = await Categorias.findAll({
                 where: { nome: categorias }
             })
 
-            // categorias.forEach(async (element) => {
-            //     await produto.removeFk_categoria(element); 
-            // });
-
             categoria.forEach(async (element) => {
                 await produto.setFk_categoria(element);
             });
-
 
             return res.json({ message: 'Atualizado com sucesso!' })
         } catch (err) {

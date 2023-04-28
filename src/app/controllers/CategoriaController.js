@@ -1,4 +1,5 @@
 import Categoria from "../models/Categoria";
+import Produtos from "../models/Produto";
 
 class CategoriaController {
 
@@ -32,6 +33,12 @@ class CategoriaController {
             const pages = Math.ceil(registros / 5);
 
             const categorias = await Categoria.findAll({
+                include: {
+                    attributes: ['id', 'nome'],
+                    model: Produtos,
+                    as: "fk_produtos",
+                    through: { attributes: [] }
+                },
                 limit: 5,
                 offset: 5 * page,
                 order: [
