@@ -113,18 +113,19 @@ class ProdutoController {
             });
 
             const cetegoProduto = produto.fk_categoria
-            cetegoProduto.forEach(async (element) => {
-                await produto.removeFk_categoria(element); 
-            });
+            console.log('cetegoProduto', cetegoProduto);
+            for (let cetego of cetegoProduto) {
+                await cetego.removeFk_produtos(produto)
+              }
 
             const categorias = data.categorias
             const categoria = await Categorias.findAll({
-                where: { nome: categorias }
-            })
+                where: { nome: { [Op.in]: categorias } }
+            });
 
             categoria.forEach(async (element) => {
                 await produto.setFk_categoria(element);
-            });
+            }); 
 
             return res.json({ message: 'Atualizado com sucesso!' })
         } catch (err) {
