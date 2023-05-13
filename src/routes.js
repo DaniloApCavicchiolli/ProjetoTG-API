@@ -60,6 +60,7 @@ routes.delete('/produto_remove/:categoria_id', ProdutoController.remove);
 //rotas Fornedor_Produtos
 routes.post('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.storeFornecedorProdutos);
 routes.get('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.indexFornecedorProdutos);
+routes.get('/fornecedor_produto_notSelected/:fornecedor_id', FornecedorProdutoController.indexFornecedorProdutoNotSelected);
 
 
 export default routes;

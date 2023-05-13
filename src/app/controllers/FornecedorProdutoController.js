@@ -60,6 +60,54 @@ class FornecedorProdutosController {
             return res.json({ message: 'Não foi possível mostrar os Produtos' });
         }
     }
+
+    /* Mostrar todos os Produtos não selecionados pelo Fornecedor - Paginação */
+    /* Produtos que trabalha - WEB */
+    async indexFornecedorProdutoNotSelected(req, res) {
+        try {
+            const { fornecedor_id } = req.params;
+            const { page = 0 } = req.query;
+
+            const fornecedor = await Fornecedores.findByPk(fornecedor_id, {
+                include: {
+                    attributes: ['nome'],
+                    model: Produtos,
+                    as: 'fk_produtos',
+                    through: { attributes: [] },
+                    include: {
+                        model: Categorias,
+                        as: 'fk_categoria',
+                        through: { attributes: [] }
+                    }
+                }
+            });
+
+            const naoSelecionados = await Produtos.findAll({
+                where: { nome: { [Op.notIn]: fornecedor.fk_produtos?.map(item => item.nome) } }
+            });
+            const registros = naoSelecionados.length;
+            const pages = Math.ceil(registros / 5);
+
+            const notSelected = await Produtos.findAll({
+                where: { nome: { [Op.notIn]: fornecedor.fk_produtos?.map(item => item.nome) } },
+                include: {
+                    attributes: ['id', 'nome'],
+                    model: Categorias,
+                    as: 'fk_categoria',
+                    through: { attributes: [] }
+                },
+                limit: 5,
+                offset: 5 * page,
+                order: [
+                    ['created_at', 'DESC']
+                ]
+            });
+            return res.json({ totalPages: pages, registros: registros, content: notSelected });
+        } catch (err) {
+            console.log(err);
+            return res.json({ message: 'Não foi possível mostrar os Produtos' });
+        }
+    }
 }
 
 export default new FornecedorProdutosController();
