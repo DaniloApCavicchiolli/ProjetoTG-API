@@ -27,10 +27,10 @@ class FornecedorProdutosController {
                     through: { attributes: [] }
                 }
             });
-            return res.json(forne);
+            return res.status(200).json(forne);
         } catch (err) {
             console.log(err);
-            return res.json({ message: 'Não foi possível registrar o Produto' });
+            return res.status(400).json({ message: 'Não foi possível registrar o Produto' });
         }
     }
 
@@ -54,16 +54,16 @@ class FornecedorProdutosController {
                 }
             });
 
-            return res.json(fornecedor.fk_produtos);
+            return res.status(200).json(fornecedor.fk_produtos);
         } catch (err) {
             console.log(err);
-            return res.json({ message: 'Não foi possível mostrar os Produtos' });
+            return res.status(400).json({ message: 'Não foi possível mostrar os Produtos' });
         }
     }
 
     /* Mostrar todos os Produtos não selecionados pelo Fornecedor - Paginação */
     /* Produtos que trabalha - WEB */
-    async indexFornecedorProdutoNotSelected(req, res) {
+    async indexFornecedorProdutosNotSelected(req, res) {
         try {
             const { fornecedor_id } = req.params;
             const { page = 0 } = req.query;
@@ -102,10 +102,28 @@ class FornecedorProdutosController {
                     ['created_at', 'DESC']
                 ]
             });
-            return res.json({ totalPages: pages, registros: registros, content: notSelected });
+            return res.status(200).json({ totalPages: pages, registros: registros, content: notSelected });
         } catch (err) {
             console.log(err);
-            return res.json({ message: 'Não foi possível mostrar os Produtos' });
+            return res.status(400).json({ message: 'Não foi possível mostrar os Produtos' });
+        }
+    }
+
+    /* Remove Relação FornecedorProduto */
+    async removeProduto(req, res) {
+        try {
+            const { fornecedor_id, produto_id } = req.params;
+
+            const fornecedor = await Fornecedores.findByPk(fornecedor_id);
+            const produto = await Produtos.findOne({
+                where: { id: produto_id }
+            });
+            await fornecedor.removeFk_produtos(produto)
+
+            return res.status(200).json({ message: 'Deletado com sucesso' });
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: 'Não foi possível deletar o Produto!' });
         }
     }
 }

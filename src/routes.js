@@ -60,7 +60,8 @@ routes.delete('/produto_remove/:categoria_id', ProdutoController.remove);
 //rotas Fornedor_Produtos
 routes.post('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.storeFornecedorProdutos);
 routes.get('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.indexFornecedorProdutos);
-routes.get('/fornecedor_produto_notSelected/:fornecedor_id', FornecedorProdutoController.indexFornecedorProdutoNotSelected);
+routes.get('/fornecedor_produtos_notSelected/:fornecedor_id', FornecedorProdutoController.indexFornecedorProdutosNotSelected);
+routes.delete('/fornecedor_produtos/:fornecedor_id/:produto_id', FornecedorProdutoController.removeProduto);
 
 
 export default routes;
