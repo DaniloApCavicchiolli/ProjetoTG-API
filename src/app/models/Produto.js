@@ -18,6 +18,11 @@ class Produtos extends Model {
             foreignKey: 'produto_id',
             as: 'fk_categoria'
         });
+        this.belongsToMany(models.Fornecedores, {
+            through: 'fornecedor_produtos',
+            foreignKey: 'produto_id', 
+            as: 'fk_fornecedor'
+        });
     }
 }
 

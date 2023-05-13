@@ -7,6 +7,7 @@ import FileController from "./app/controllers/FileController";
 import FornecedorController from "./app/controllers/FornecedorController";
 import CategoriaController from "./app/controllers/CategoriaController";
 import ProdutoController from "./app/controllers/ProdutoController";
+import FornecedorProdutoController from "./app/controllers/FornecedorProdutoController";
 
 import authMiddlewares from "./app/middlewares/auth";
 import multerConfig from "./config/multer";
@@ -55,5 +56,9 @@ routes.get('/produto/:id', ProdutoController.showOne);
 routes.put('/produto/:id', ProdutoController.update);
 routes.delete('/produto/:id', ProdutoController.destroy);
 routes.delete('/produto_remove/:categoria_id', ProdutoController.remove);
+
+//rotas Fornedor_Produtos
+routes.post('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.storeFornecedor);
+
 
 export default routes;

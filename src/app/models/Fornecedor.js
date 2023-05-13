@@ -30,7 +30,12 @@ class Fornecedores extends Model {
         this.belongsTo(models.File, {
             foreignKey: 'avatar_id',
             as: 'avatar'
-        })
+        });
+        this.belongsToMany(models.Produtos, {
+            through: 'fornecedor_produtos',
+            foreignKey: 'fornecedor_id', 
+            as: 'fk_produtos'
+        });
     }
 
     checkPassword(password) {
