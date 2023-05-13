@@ -118,12 +118,12 @@ class FornecedorProdutosController {
             const produto = await Produtos.findOne({
                 where: { id: produto_id }
             });
-            await fornecedor.removeFk_produtos(produto)
+            await fornecedor.removeFk_produtos(produto); 
 
             return res.status(200).json({ message: 'Deletado com sucesso' });
         } catch (err) {
             console.log(err);
-            return res.status(400).json({ error: 'Não foi possível deletar o Produto!' });
+            return res.status(400).json({ message: 'Não foi possível deletar o Produto!' });
         }
     }
 }
