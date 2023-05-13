@@ -58,7 +58,8 @@ routes.delete('/produto/:id', ProdutoController.destroy);
 routes.delete('/produto_remove/:categoria_id', ProdutoController.remove);
 
 //rotas Fornedor_Produtos
-routes.post('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.storeFornecedor);
+routes.post('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.storeFornecedorProdutos);
+routes.get('/fornecedor_produtos/:fornecedor_id', FornecedorProdutoController.indexFornecedorProdutos);
 
 
 export default routes;
