@@ -20,8 +20,12 @@ class Produtos extends Model {
         });
         this.belongsToMany(models.Fornecedores, {
             through: 'fornecedor_produtos',
-            foreignKey: 'produto_id', 
+            foreignKey: 'produto_id',
             as: 'fk_fornecedor'
+        });
+        this.hasMany(models.Solicitacoes, {
+            foreignKey: 'produto_id',
+            as: 'fk_solicitacao'
         });
     }
 }

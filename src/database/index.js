@@ -5,6 +5,7 @@ import databaseConfig from "../config/database";
 import Fornecedor from "../app/models/Fornecedor";
 import Categorias from "../app/models/Categoria";
 import Produtos from "../app/models/Produto";
+import Solicitacoes from "../app/models/Solicitacao";
 
 // const models = [User, File, Fornecedor, Categorias, Produtos];
 
@@ -24,11 +25,13 @@ class Database {
         File.init(this.connection)
         Categorias.init(this.connection)
         Produtos.init(this.connection)
+        Solicitacoes.init(this.connection)
 
         User.associate(this.connection.models)
         Fornecedor.associate(this.connection.models)
         Categorias.associate(this.connection.models)
         Produtos.associate(this.connection.models)
+        Solicitacoes.associate(this.connection.models)
     }
 }
 
