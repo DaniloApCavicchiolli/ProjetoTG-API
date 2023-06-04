@@ -61,6 +61,37 @@ class SolicitacaoController {
         }
     }
 
+    async indexByClient(req, res) {
+        const { clientId } = req.params;
+        try {
+            const solicitacoes = await Solicitacoes.findAll({
+                where: {
+                  user_id: clientId
+                },
+                include: [{
+                    attributes: ['id', 'nome'],
+                    model: Produtos,
+                    as: 'fk_produto',
+                    include: {
+                        attributes: ['nome'],
+                        model: Categorias,
+                        as: 'fk_categoria',
+                        through: { attributes: [] }
+                    }
+                }],
+                order: [
+                    ['createdAt', 'DESC']
+                ]
+            });
+            const registros = solicitacoes.length;
+
+            return res.status(200).json({ registros: registros, content: solicitacoes });
+        } catch (err) {
+            console.log(err);
+            return res.status(200).json({ error: 'Não foi possível mostrar as solicitções' })
+        }
+    }
+
 }
 
 export default new SolicitacaoController();

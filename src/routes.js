@@ -54,6 +54,7 @@ routes.delete('/categoria/:id', CategoriaController.destroy);
 routes.post('/produto', ProdutoController.store);
 routes.get('/produto', ProdutoController.index);
 routes.get('/produto/:id', ProdutoController.showOne);
+routes.get('/produto_showAll', ProdutoController.showAll);
 routes.put('/produto/:id', ProdutoController.update);
 routes.delete('/produto/:id', ProdutoController.destroy);
 routes.delete('/produto_remove/:categoria_id', ProdutoController.remove);
@@ -67,6 +68,7 @@ routes.delete('/fornecedor_produtos/:fornecedor_id/:produto_id', FornecedorProdu
 //rotas solicitações
 routes.post('/solicitacao', SolicitacaoController.store);
 routes.get('/solicitacao', SolicitacaoController.index);
+routes.get('/solicitacao/:clientId', SolicitacaoController.indexByClient);
 
 
 export default routes;

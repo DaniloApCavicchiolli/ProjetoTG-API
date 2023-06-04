@@ -76,6 +76,27 @@ class ProdutoController {
         }
     }
 
+    /* Mostrar todas os produtos */
+    async showAll(req, res) {
+        try {
+
+            const produtos = await Produtos.findAll({
+                include: {
+                    attributes: ['id', 'nome'],
+                    model: Categorias,
+                    as: 'fk_categoria',
+                    through: { attributes: [] }
+                },
+            });
+
+            return res.status(200).json(produtos);
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ message: 'Não foi possível mostrar os produtos' })
+        }
+    }
+
+
     /* Mostrar um Produto */
     async showOne(req, res) {
         try {
