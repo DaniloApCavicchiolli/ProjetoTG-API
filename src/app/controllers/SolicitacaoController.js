@@ -1,7 +1,9 @@
 import Solicitacoes from "../models/Solicitacao";
 import User from "../models/User";
+import Fornecedores from "../models/Fornecedor";
 import Produtos from "../models/Produto";
 import Categorias from "../models/Categoria";
+const { Op } = require("sequelize");
 
 class SolicitacaoController {
 
@@ -66,7 +68,7 @@ class SolicitacaoController {
         try {
             const solicitacoes = await Solicitacoes.findAll({
                 where: {
-                  user_id: clientId
+                    user_id: clientId
                 },
                 include: [{
                     attributes: ['id', 'nome'],
@@ -85,6 +87,52 @@ class SolicitacaoController {
             });
             const registros = solicitacoes.length;
 
+            return res.status(200).json({ registros: registros, content: solicitacoes });
+        } catch (err) {
+            console.log(err);
+            return res.status(200).json({ error: 'Não foi possível mostrar as solicitções' })
+        }
+    }
+
+    async indexByFornecedor(req, res) {
+        const { fornecedorId } = req.params;
+        try {
+            const fornecedor = await Fornecedores.findByPk(fornecedorId, {
+                include: [{
+                    attributes: ['id', 'nome'],
+                    model: Produtos,
+                    as: 'fk_produtos',
+                    through: {
+                        as: 'fornecedor_produtos',
+                        attributes: []
+                    },
+                }]
+            });
+
+            const solicitacoes = await Solicitacoes.findAll({
+                where: {
+                    produto_id: { [Op.in]: fornecedor.fk_produtos?.map(item => item.id) },
+                },
+                include: [{
+                    attributes: ['id', 'nome'],
+                    model: Produtos,
+                    as: 'fk_produto',
+                    include: {
+                        attributes: ['id', 'nome'],
+                        model: Categorias,
+                        as: 'fk_categoria',
+                        through: {
+                            as: 'categoria_produtos',
+                            attributes: []
+                        },
+                    }
+                }],
+                order: [
+                    ['createdAt', 'DESC']
+                ]
+            });
+
+            const registros = solicitacoes.length;
             return res.status(200).json({ registros: registros, content: solicitacoes });
         } catch (err) {
             console.log(err);

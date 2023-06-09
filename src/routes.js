@@ -69,6 +69,7 @@ routes.delete('/fornecedor_produtos/:fornecedor_id/:produto_id', FornecedorProdu
 routes.post('/solicitacao', SolicitacaoController.store);
 routes.get('/solicitacao', SolicitacaoController.index);
 routes.get('/solicitacao/:clientId', SolicitacaoController.indexByClient);
+routes.get('/solicitacao_fornecedor/:fornecedorId', SolicitacaoController.indexByFornecedor);
 
 
 export default routes;
