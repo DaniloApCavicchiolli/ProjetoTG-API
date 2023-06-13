@@ -9,6 +9,7 @@ import CategoriaController from "./app/controllers/CategoriaController";
 import ProdutoController from "./app/controllers/ProdutoController";
 import FornecedorProdutoController from "./app/controllers/FornecedorProdutoController";
 import SolicitacaoController from "./app/controllers/SolicitacaoController";
+import CotacaoController from "./app/controllers/CotacaoController";
 
 import authMiddlewares from "./app/middlewares/auth";
 import multerConfig from "./config/multer";
@@ -71,5 +72,7 @@ routes.get('/solicitacao', SolicitacaoController.index);
 routes.get('/solicitacao/:clientId', SolicitacaoController.indexByClient);
 routes.get('/solicitacao_fornecedor/:fornecedorId', SolicitacaoController.indexByFornecedor);
 
+//rotas cotações
+routes.post('/fornecedor/:fornecedor_id/solicitacao/:solicitacao_id', CotacaoController.store);
 
 export default routes;
