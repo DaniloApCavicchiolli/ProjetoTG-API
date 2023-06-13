@@ -6,7 +6,7 @@ import Categorias from "../models/Categoria";
 const { Op } = require("sequelize");
 
 class SolicitacaoController {
-
+    /* Criar solicitação */
     async store(req, res) {
         try {
             const data = req.body;
@@ -96,6 +96,8 @@ class SolicitacaoController {
 
     async indexByFornecedor(req, res) {
         const { fornecedorId } = req.params;
+        console.log('fornecedorId', fornecedorId);
+
         try {
             const fornecedor = await Fornecedores.findByPk(fornecedorId, {
                 include: [{

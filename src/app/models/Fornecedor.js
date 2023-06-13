@@ -36,6 +36,10 @@ class Fornecedores extends Model {
             foreignKey: 'fornecedor_id', 
             as: 'fk_produtos'
         });
+        this.hasMany(models.Cotacoes, {
+            foreignKey: 'fornecedor_id',
+            as: 'fk_cotacao'
+        }); 
     }
 
     checkPassword(password) {

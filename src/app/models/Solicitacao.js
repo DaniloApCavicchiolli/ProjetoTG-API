@@ -20,6 +20,10 @@ class Solicitacoes extends Model {
             foreignKey: 'produto_id',
             as: 'fk_produto'
         });
+        this.hasMany(models.Cotacoes, {
+            foreignKey: 'solicitacao_id',
+            as: 'fk_cotacao'
+        });
     }
 }
 
