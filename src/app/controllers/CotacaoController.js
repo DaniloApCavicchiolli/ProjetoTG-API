@@ -24,6 +24,30 @@ class CotacaoController {
         }
     }
 
+    /* Mostrar todas as Cotações */
+    async index(req, res) {
+        try {
+            const cotacoes = await Cotacoes.findAll({
+                    attributes: ['id', 'valor', 'createdAt'],
+                    include: [{
+                    attributes: ['id', 'nome', 'marca', 'quantidade', 'forma_pagamento'],
+                    model: Solicitacoes,
+                    as: 'fk_solicitacao',
+                }, {
+                    attributes: ['id', 'name', 'email', 'telefone', 'cidade', 'endereco'],
+                    model: Fornecedores,
+                    as: 'fk_fornecedor'
+                }],
+            });
+
+            const registros = cotacoes.length;
+            return res.status(200).json({ registros: registros, content: cotacoes });
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ message: 'Não foi possível mostrar as Cotações' });
+        }
+    }
+
 }
 
 export default new CotacaoController();
