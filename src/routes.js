@@ -75,5 +75,6 @@ routes.get('/solicitacao_fornecedor/:fornecedorId', SolicitacaoController.indexB
 //rotas cotações
 routes.post('/fornecedor/:fornecedor_id/solicitacao/:solicitacao_id', CotacaoController.store);
 routes.get('/cotacoes', CotacaoController.index);
+routes.get('/cotacoes_fornecedor/:fornecedor_id', CotacaoController.indexFornecedor);
 
 export default routes;
