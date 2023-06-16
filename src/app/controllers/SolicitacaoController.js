@@ -3,6 +3,7 @@ import User from "../models/User";
 import Fornecedores from "../models/Fornecedor";
 import Produtos from "../models/Produto";
 import Categorias from "../models/Categoria";
+import Cotacoes from "../models/Cotacao";
 const { Op } = require("sequelize");
 
 class SolicitacaoController {
@@ -49,14 +50,37 @@ class SolicitacaoController {
                         as: 'fk_categoria',
                         through: { attributes: [] }
                     }
-                }],
+                }, {
+                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor'],
+                    model: Cotacoes,
+                    as: 'fk_cotacao',
+                    include: {
+                        attributes: ['id', 'name'],
+                        model: Fornecedores,
+                        as: 'fk_fornecedor',
+                    }
+                }
+                ],
                 order: [
                     ['createdAt', 'DESC']
                 ]
             });
+
+            const cotacao = []
+
+            solicitacoes.forEach((item) => {
+                if (item.fk_cotacao.length === 0) {
+                    return cotacao.push(item.dataValues)
+                }
+
+                item.fk_cotacao.map((data) => {
+                    cotacao.push({ ...item.dataValues, fk_cotacao: [data] })
+                })
+            });
+
             const registros = solicitacoes.length;
 
-            return res.status(200).json({ registros: registros, content: solicitacoes });
+            return res.status(200).json({ registros: registros, content: cotacao });
         } catch (err) {
             console.log(err);
             return res.status(200).json({ error: 'Não foi possível mostrar as solicitções' })
