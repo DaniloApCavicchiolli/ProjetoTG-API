@@ -152,6 +152,21 @@ class SolicitacaoController {
                             attributes: []
                         },
                     }
+                }, {
+                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor'],
+                    model: Cotacoes,
+                    as: 'fk_cotacao',
+                    where: { fornecedor_id: fornecedorId },
+                    required: false,
+                    include: {
+                        attributes: ['id', 'name'],
+                        model: Fornecedores,
+                        as: 'fk_fornecedor',
+                    }
+                }, {
+                    attributes: ['id', 'name'],
+                    model: User,
+                    as: 'fk_user'
                 }],
                 order: [
                     ['createdAt', 'DESC']
