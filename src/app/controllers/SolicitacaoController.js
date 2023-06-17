@@ -51,7 +51,7 @@ class SolicitacaoController {
                         through: { attributes: [] }
                     }
                 }, {
-                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor'],
+                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor', 'created_at'],
                     model: Cotacoes,
                     as: 'fk_cotacao',
                     include: {
@@ -153,7 +153,7 @@ class SolicitacaoController {
                         },
                     }
                 }, {
-                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor'],
+                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor', 'created_at'],
                     model: Cotacoes,
                     as: 'fk_cotacao',
                     where: { fornecedor_id: fornecedorId },

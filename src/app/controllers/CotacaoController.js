@@ -75,11 +75,25 @@ class CotacaoController {
         }
     }
 
+    async update(req, res) {
+        try {
+            const { id } = req.params;
+            const data = req.body;
+
+            await Cotacoes.update(data, {
+                where: { id }
+            });
+
+            return res.status(200).json({ message: 'Cotação atualizada com sucesso!' });
+        } catch (error) {
+            return res.status(400).json({ message: 'Não foi possível atualizar a cotação!' });
+        }
+    }
+
     /* Deletar relação de fornecedor com solicitação */
     async destroy(req, res) {
         try {
             const { id } = req.params;
-            console.log('CotaçãoId', id);
 
             await Cotacoes.destroy({
                 where: { id }
@@ -87,7 +101,7 @@ class CotacaoController {
 
             return res.status(200).json({ message: 'Deletado com sucesso' });
         } catch (err) {
-            return res.status(400).json({ error: 'Não foi possível deletar o Produto!' });
+            return res.status(400).json({ message: 'Não foi possível deletar a cotação!' });
         }
     }
 
