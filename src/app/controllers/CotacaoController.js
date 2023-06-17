@@ -75,6 +75,22 @@ class CotacaoController {
         }
     }
 
+    /* Deletar relação de fornecedor com solicitação */
+    async destroy(req, res) {
+        try {
+            const { id } = req.params;
+            console.log('CotaçãoId', id);
+
+            await Cotacoes.destroy({
+                where: { id }
+            });
+
+            return res.status(200).json({ message: 'Deletado com sucesso' });
+        } catch (err) {
+            return res.status(400).json({ error: 'Não foi possível deletar o Produto!' });
+        }
+    }
+
 }
 
 export default new CotacaoController();
