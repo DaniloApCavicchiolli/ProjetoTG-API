@@ -34,6 +34,7 @@ routes.post("/files", upload.single("file"), FileController.store);
 
 //rotas de usuários
 routes.get('/users', UserController.index);
+routes.get('/usersAll', UserController.indexAll);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.destroy);
 

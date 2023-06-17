@@ -24,6 +24,28 @@ class UserController {
         }
     }
 
+    async indexAll(req, res) {
+        try {
+            const users = await User.findAll({
+                include: [{
+                    model: File,
+                    as: 'avatar',
+                    attributes: ['name', 'path', 'url']
+                }],
+                order: [
+                    ['createdAt', 'DESC'],
+                ],
+            });
+
+            const registros = users.length;
+
+            return res.json({ content: users, registros: registros });
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: 'Não foi possível mostrar os usuários' })
+        }
+    }
+
     /* REGISTRAR USUÁRIO */
     async store(req, res) {
         try {
