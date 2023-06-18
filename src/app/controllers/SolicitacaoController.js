@@ -104,7 +104,17 @@ class SolicitacaoController {
                         as: 'fk_categoria',
                         through: { attributes: [] }
                     }
-                }],
+                }, {
+                    attributes: ['id', 'fornecedor_id', 'solicitacao_id', 'valor', 'created_at'],
+                    model: Cotacoes,
+                    as: 'fk_cotacao',
+                    include: {
+                        attributes: ['id', 'name', 'telefone', 'endereco'],
+                        model: Fornecedores,
+                        as: 'fk_fornecedor',
+                    }
+                }
+                ],
                 order: [
                     ['createdAt', 'DESC']
                 ]
@@ -120,7 +130,6 @@ class SolicitacaoController {
 
     async indexByFornecedor(req, res) {
         const { fornecedorId } = req.params;
-        console.log('fornecedorId', fornecedorId);
 
         try {
             const fornecedor = await Fornecedores.findByPk(fornecedorId, {
